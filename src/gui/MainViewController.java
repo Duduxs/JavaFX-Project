@@ -32,7 +32,7 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartmentSellerAction() {
-		System.out.println("onMenuDepartmentSellerAction!");
+		loadView("/gui/DepartmentList.fxml");
 	}
 
 	@FXML
@@ -58,10 +58,14 @@ public class MainViewController implements Initializable {
 			* getRoot -> Get the first element of principal FXMl (ScrollPane) and get their content.
 			*/
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-			// Save the reference to mainVbox Children.
+			// Save the reference to mainVbox Children. (MenuBar)
 			Node mainMenu = mainVBox.getChildren().get(0);
 			// Clear all children from mainVbox
 			mainVBox.getChildren().clear();
+			/* Add the mainMenu (MenuBar) to principal screen and include 
+			 * all children from the screen in parameter
+			 * 
+			 */
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
 			
