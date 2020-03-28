@@ -37,7 +37,6 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemAboutSellerAciton() {
-		System.out.println("onMenuAboutSellerAction!");
 		loadView("/gui/About.fxml");
 	}
 
@@ -49,14 +48,19 @@ public class MainViewController implements Initializable {
 	// Load the About screen, the Synchronized = the code will be not interrupted
 	private synchronized void loadView(String absoluteName) {
 		try {
-			
+			// catch the screen, opening the screen in the parameter. 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			// Load the screen (Obsvisouly Vbox bcauz the FXML in the parameter is a node vbox).
 			VBox newVBox = loader.load();
-			
+			// Catch the reference of the Principal Screen
 			Scene mainScene = Main.getMainScene();
+			/* Catch the reference of VBox Principal Screen
+			* getRoot -> Get the first element of principal FXMl (ScrollPane) and get their content.
+			*/
 			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
-			
+			// Save the reference to mainVbox Children.
 			Node mainMenu = mainVBox.getChildren().get(0);
+			// Clear all children from mainVbox
 			mainVBox.getChildren().clear();
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
