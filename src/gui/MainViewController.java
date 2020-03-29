@@ -45,12 +45,12 @@ public class MainViewController implements Initializable {
 
 	}
 
-	// Load the About screen, the Synchronized = the code will be not interrupted
+	// Load the screen, the Synchronized = the code will be not interrupted
 	private synchronized void loadView(String absoluteName) {
 		try {
 			// catch the screen, opening the screen in the parameter. 
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
-			// Load the screen (Obsvisouly Vbox bcauz the FXML in the parameter is a node vbox).
+			// Load the screen (Obsvisouly Vbox bcauz the FXML in the parameter is always a node vbox).
 			VBox newVBox = loader.load();
 			// Catch the reference of the Principal Screen
 			Scene mainScene = Main.getMainScene();
@@ -64,7 +64,6 @@ public class MainViewController implements Initializable {
 			mainVBox.getChildren().clear();
 			/* Add the mainMenu (MenuBar) to principal screen and include 
 			 * all children from the screen in parameter
-			 * 
 			 */
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
