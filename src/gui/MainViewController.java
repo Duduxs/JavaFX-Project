@@ -15,6 +15,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.VBox;
+import model.services.DepartmentService;
 
 public class MainViewController implements Initializable {
 
@@ -32,7 +33,8 @@ public class MainViewController implements Initializable {
 
 	@FXML
 	public void onMenuItemDepartmentSellerAction() {
-		loadView("/gui/DepartmentList.fxml");
+		loadView2("/gui/DepartmentList.fxml");
+		
 	}
 
 	@FXML
@@ -67,6 +69,38 @@ public class MainViewController implements Initializable {
 			 */
 			mainVBox.getChildren().add(mainMenu);
 			mainVBox.getChildren().addAll(newVBox.getChildren());
+			
+			
+		} catch (IOException e) {
+			Alerts.showAlert("IO Exception", null, "Error loading view", AlertType.ERROR);
+		}
+	}
+	
+	private synchronized void loadView2(String absoluteName) {
+		try {
+			// catch the screen, opening the screen in the parameter. 
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
+			// Load the screen (Obsvisouly Vbox bcauz the FXML in the parameter is always a node vbox).
+			VBox newVBox = loader.load();
+			// Catch the reference of the Principal Screen
+			Scene mainScene = Main.getMainScene();
+			/* Catch the reference of VBox Principal Screen
+			* getRoot -> Get the first element of principal FXMl (ScrollPane) and get their content.
+			*/
+			VBox mainVBox = (VBox) ((ScrollPane) mainScene.getRoot()).getContent();
+			// Save the reference to mainVbox Children. (MenuBar)
+			Node mainMenu = mainVBox.getChildren().get(0);
+			// Clear all children from mainVbox
+			mainVBox.getChildren().clear();
+			/* Add the mainMenu (MenuBar) to principal screen and include 
+			 * all children from the screen in parameter
+			 */
+			mainVBox.getChildren().add(mainMenu);
+			mainVBox.getChildren().addAll(newVBox.getChildren());
+			
+			DepartmentListController controller = loader.getController();
+			controller.setDepartmentService(new DepartmentService());
+			controller.updateTableView();
 			
 			
 		} catch (IOException e) {
