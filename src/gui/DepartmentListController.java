@@ -48,7 +48,8 @@ public class DepartmentListController implements Initializable {
 
 	@FXML
 	public void onBtNewAction(ActionEvent event) {
-		createDialogForm("/gui/DepartmentForm.fxml", Utils.currentStage(event));
+		Department obj = new Department();
+		createDialogForm(obj,"/gui/DepartmentForm.fxml", Utils.currentStage(event));
 	}
 
 	@Override
@@ -79,11 +80,18 @@ public class DepartmentListController implements Initializable {
 
 	}
 	// Create the window DialogForm
-	private void createDialogForm(String absoluteName, Stage parentStage) {
+	private void createDialogForm(Department obj, String absoluteName, Stage parentStage) {
 		try {
 			// Load the FXML
 			FXMLLoader loader = new FXMLLoader(getClass().getResource(absoluteName));
 			Pane pane = loader.load();
+			
+			
+			DepartmentFormController controller = loader.getController();
+			controller.setDepartment(obj);
+			controller.setDepartmentService(new DepartmentService());
+			controller.updateFormData();
+			
 			// Initialize a new stage for the new window.
 			Stage dialogStage = new Stage();
 			// Set a title for the window.
@@ -98,6 +106,8 @@ public class DepartmentListController implements Initializable {
 			dialogStage.initModality(Modality.WINDOW_MODAL);
 			// Show the window (duh)
 			dialogStage.showAndWait();
+			
+
 			
 			
 		}
