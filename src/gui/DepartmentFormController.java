@@ -66,7 +66,7 @@ public class DepartmentFormController implements Initializable {
 			throw new IllegalStateException("Service was null");
 
 		try {
-			entity = getFormData();
+			entity = getFormData(); // <- He can throw a validationException 
 			service.saveOrUpdate(entity);
 			notifyDataChangeListeners();
 			Utils.currentStage(event).close();
@@ -98,7 +98,7 @@ public class DepartmentFormController implements Initializable {
 		}
 		obj.setName(txtName.getText());
 		
-		//if exists an error, them throw a exception error for i can see.
+		//if exists an error, them throw a exception error for i can catch it in onBtnSaveAction
 		if(exception.getErrors().size() > 0) {
 			throw exception;
 		}
@@ -126,7 +126,7 @@ public class DepartmentFormController implements Initializable {
 		txtName.setText(entity.getName());
 
 	}
-	
+	// Find an error and set in label text.
 	private void setErrorMessages(Map<String,String> errors) {
 		//Camp name
 		Set<String> fields = errors.keySet();
