@@ -122,23 +122,21 @@ public class DepartmentDaoJDBC implements DepartmentDao {
 	public List<Department> findAll() {
 		PreparedStatement st = null;
 		ResultSet rs = null;
-		
+
 		try {
 			List<Department> list = new ArrayList<>();
 			st = conn.prepareStatement("select * from department order by Id");
 			rs = st.executeQuery();
-			
-			while(rs.next()) {
+
+			while (rs.next()) {
 				list.add(makeDepartment(rs));
-				
+
 			}
 			return list;
-			
-			
-			
-		}catch(SQLException e) {
+
+		} catch (SQLException e) {
 			throw new DbException(e.getMessage());
-		}finally {
+		} finally {
 			DB.closeResultSet(rs);
 			DB.closeStatement(st);
 		}
