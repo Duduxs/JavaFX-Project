@@ -22,6 +22,8 @@ public class Main extends Application {
 			// Set height and width max on screen
 			scrollPane.setFitToHeight(true);
 			scrollPane.setFitToWidth(true);
+			
+			
 
 			mainScene = new Scene(scrollPane);
 			// Set stage and title at Stage in arguments, after show the screen.

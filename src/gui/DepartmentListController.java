@@ -67,6 +67,10 @@ public class DepartmentListController implements Initializable, DataChangeListen
 	}
 
 	private void initializeNodes() {
+
+		// Avoid the extra empty column
+		tableViewDepartment.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
 		// Initializable the columns compartments.
 		tableColumnId.setCellValueFactory(new PropertyValueFactory<>("id"));
 		tableColumnName.setCellValueFactory(new PropertyValueFactory<>("Name"));
@@ -167,6 +171,7 @@ public class DepartmentListController implements Initializable, DataChangeListen
 			}
 		});
 	}
+
 	// he's responsible to show an alert before confirmation to delete.
 	private void removeEntity(Department obj) {
 		Optional<ButtonType> result = Alerts.showConfirmation("Confirmation", "Are you sure to delete?");
