@@ -1,9 +1,11 @@
 package gui;
 
 import java.net.URL;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -74,7 +76,6 @@ public class SellerFormController implements Initializable {
 	@FXML
 	private Label lblErrorBaseSalary;
 
-
 	private ObservableList<Department> obsList;
 
 	public void setSeller(Seller entity) {
@@ -130,6 +131,27 @@ public class SellerFormController implements Initializable {
 			exception.addError("name", "Field cannot be empty");
 		}
 		obj.setName(txtName.getText());
+
+		if (txtEmail.getText() == null || txtEmail.getText().trim().equals("")) {
+
+			exception.addError("email", "Field cannot be empty");
+		}
+		obj.setEmail(txtEmail.getText());
+
+		if (dpBirthDate.getValue() == null) {
+			exception.addError("birthDate", "Field cannot be empty");
+		} else {
+			Instant instant = Instant.from(dpBirthDate.getValue().atStartOfDay(ZoneId.systemDefault()));
+			obj.setBirthDate(Date.from(instant));
+		}
+		if (txtBaseSalary.getText() == null || txtBaseSalary.getText().trim().equals("")) {
+
+			exception.addError("baseSalary", "Field cannot be empty");
+		}
+
+		obj.setBaseSalary(Utils.tryParseToDouble(txtBaseSalary.getText()));
+
+		obj.setDepartment(comboBoxDepartment.getValue());
 
 		// if exists an error, them throw a exception error for i can catch it in
 		// onBtnSaveAction
@@ -191,9 +213,11 @@ public class SellerFormController implements Initializable {
 		// Camp name
 		Set<String> fields = errors.keySet();
 
-		if (fields.contains("name")) {
-			lblErrorName.setText(errors.get("name"));
-		}
+		lblErrorName.setText(fields.contains("name") ? errors.get("name") : "");
+		lblErrorEmail.setText(fields.contains("email") ? errors.get("email") : "");
+		lblErrorBirthDate.setText(fields.contains("birthDate") ? errors.get("birthDate") : "");
+		lblErrorBaseSalary.setText(fields.contains("baseSalary") ? errors.get("baseSalary") : "");
+
 	}
 
 	private void initializeComboBoxDepartment() {
